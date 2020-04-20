@@ -112,6 +112,19 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# Shell Imports
+SHELL_PLUS_PRE_IMPORTS = (
+    ('todo.models', 'Project, List, Task'),     ('todo.models', '*'),
+    ('todo.forms', '*'),
+    ('todo.views', '*'),
+    ('django.core.urlresolvers', '*'),
+    ('django.db', 'connection'),
+    ('django.db', 'reset_queries'),
+)
+
+# SHELL_PLUS_DONT_LOAD = ['<app_name>', '<app_name>']
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 

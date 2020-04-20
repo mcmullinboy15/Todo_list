@@ -239,6 +239,31 @@ def getVariables(request):
 
 
 # Create your views here.
+def User__(request):
+    variables = getVariables(request)
+
+    if variables['no_command']:
+        return getEverything(request)
+    else:
+
+        username = request.GET.get('username')
+        email = request.GET.get('email')
+        password = request.GET.get('password')
+        
+        usr = User.objects.create_user(
+            username=username, 
+            email=email, 
+            password=password
+        )
+
+        usr.is_staff = request.GET.get('is_staff')
+        usr.is_superuser = request.GET.get('is_superuser')
+
+        usr.save()
+
+        return JsonResponse(model_to_dict(usr))
+
+
 def project_list(request, user_id):
     variables = getVariables(request)
     resp = {}

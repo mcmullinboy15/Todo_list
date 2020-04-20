@@ -1,3 +1,4 @@
+import itertools
 from pprint import pprint
 import json
 
@@ -9,7 +10,7 @@ from django.core import serializers
 from django.contrib.auth.models import User, UserManager, AbstractUser
 from django.forms.models import model_to_dict
 
-from .models import  Project, List, Task
+from .models import Project, List, Task
 
 
 def convert(request):
@@ -44,9 +45,27 @@ def convert(request):
 
 
 # Create your views here.
-def index(request, user_id):
-    data = serializers.serialize("json", User.objects.all())
-    return JsonResponse({'time': timezone.now(), 'user_id': user_id, 'user_list': data})
+def index(request):
+    return render(request, 'todo/index.html', {'time': timezone.now()})
+
+
+def user_index(request, user_id):
+    # user = User.objects.filter(pk=user_id)[0]
+
+    response = requests.get(f"http://127.0.0.1:8000/todo/{user_id}/api/project/")
+    user_data = response.json()
+
+    user = user_data['User']
+    todos = user_data['Projects']
+
+    # print(user)
+
+    background_url = requests.get("https://api.nasa.gov/planetary/apod?api_key=lXdVWNTa2v5NsPcScU6b9bfVNAMeM9MfN4Fu6EWf")
+    background_url = background_url.json()
+    background_url = background_url['url']
+
+    return render(request, 'todo/user_index.html',
+                  {'time': timezone.now(), 'user_id': user['id'], 'user': user, 'user_data': user_data, 'todos': todos, 'background_url': background_url})
 
 
 def get_projects(user_id, proj_id, amount):
@@ -93,7 +112,6 @@ def get(request, user_id):
         amount = int(amount)
 
     if proj_id is not None:
-
         has_proj_id = True
 
         projects = get_projects(user_id, proj_id, amount)
@@ -107,7 +125,6 @@ def get(request, user_id):
     if list_id is None:
 
         if task_id is None:
-
             has_list_id = True
 
     if task_id is not None:
@@ -118,7 +135,6 @@ def get(request, user_id):
         lists = List.objects.filter(_project=proj_id)
 
         for list in lists:
-
             # call the get method again to get the lists
             lists_json = requests.get(f"http://127.0.0.1:8000/{user_id}/get?list={list.pk}")
 

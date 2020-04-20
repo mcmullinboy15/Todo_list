@@ -25,10 +25,7 @@ def populate_db(apps, schema_editor):
     # usr.save()
 
     usr = User.objects.create_user('mcmullin', email='mcmullin@gmail.com', password='Mcmullin15')
-    # usr.is_superuser = True
-    # usr.is_staff = True
     usr.save()
-    print(type(usr))
 
     p = Project(
         title='First Project',
@@ -36,7 +33,7 @@ def populate_db(apps, schema_editor):
         created=timezone.now(),
         content='This is the content of the Project 1',
         contributors='mcmullinboy1@gmail.com',
-        _user=usr
+        parent_obj=usr
     )
     p.save()
 
@@ -46,7 +43,7 @@ def populate_db(apps, schema_editor):
         created=timezone.now(),
         content='This is the content of the List 1',
         contributors='mcmullinand@gmail.com',
-        _project=p
+        parent_obj=p
     )
     l.save()
 
@@ -55,7 +52,7 @@ def populate_db(apps, schema_editor):
         description='this first Task has a description',
         created=timezone.now(),
         content='This is the content of the Task 1',
-        _list=l
+        parent_obj=l
     )
     t.save()
 
@@ -73,7 +70,7 @@ def populate_db(apps, schema_editor):
         created=timezone.now(),
         content='This is the content of the Project 2',
         contributors='mcmullinboy1@gmail.com',
-        _user=usr2
+        parent_obj=usr2
     )
     p2.save()
 
@@ -83,7 +80,7 @@ def populate_db(apps, schema_editor):
         created=timezone.now(),
         content='This is the content of the List 2',
         contributors='mcmullinand@gmail.com',
-        _project=p2
+        parent_obj=p2
     )
     l2.save()
 
@@ -92,7 +89,7 @@ def populate_db(apps, schema_editor):
         description='2nd Task has a description',
         created=timezone.now(),
         content='This is the content of the Task 2',
-        _list=l2
+        parent_obj=l2
     )
     t2.save()
 

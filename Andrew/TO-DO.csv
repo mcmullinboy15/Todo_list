@@ -1,0 +1,7 @@
+task_name,priority,task_status,task_class,task_type,task_deadline,task_description
+"Test",0,DONE,USU_1350,STUDY,TODAY,""
+"HW3",1,DONE,MATH_3310,HW,TODAY,"finish describing the TODOs"
+"Look at House",0,TODO,N/A,FREETIME,TOMORROW,""
+"No Silver Bullet",9,TODO,CS_1440,READ,OYOT,""
+"Mythical Man-Month",9,TODO,CS_2610,READ,OYOT,""
+

@@ -22,7 +22,7 @@ api_urlpatterns = [
 """ /todo/<int:user_id>/api_edit/ """
 api_edit_urlpatterns = [
 
-    path('', views.index, name='index'),
+    # path('', views.index, name='index'),
     path('get/', views.get, name='get'),
     path('new/', views.new, name='new'),
     path('link/', views.link, name='link'),  # unlink
@@ -40,11 +40,13 @@ ui_urlpatterns = [
 pre = '/todo/'
 urlpatterns = [
 
-    path('', views.index, name='index'), # make it create User!!!
-    path('<int:user_id>/', views.index, name='index'),
+    path('', views.index, name='index'),  # make it create User!!!
+    path('api/', views_api.User__, name='User__'),
+    path('<int:user_id>/', views.user_index, name='index'),
     path('<int:user_id>/todo/', include(ui_urlpatterns)),
     path('<int:user_id>/api/', include(api_urlpatterns)),
     path('<int:user_id>/api_edit/', include(api_edit_urlpatterns)),
+
 
     path('vars/', views_api.vars, name='vars'),
     path('all/', views_api.getAll, name='getall'),
