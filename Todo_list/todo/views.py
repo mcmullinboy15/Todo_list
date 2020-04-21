@@ -1,6 +1,8 @@
 import itertools
 from pprint import pprint
 import json
+from requests.compat import urljoin, quote_plus
+
 
 import requests
 from django.shortcuts import render, get_object_or_404, reverse
@@ -51,8 +53,12 @@ def index(request):
 
 def user_index(request, user_id):
     # user = User.objects.filter(pk=user_id)[0]
-
-    response = requests.get(f"http://127.0.0.1:8000/todo/{user_id}/api/project/")
+    
+    print(request.build_absolute_uri(f"/todo/{user_id}/api/project/"))
+    # print(urljoin(request, f"/todo/{user_id}/api/project/"))
+    # response = requests.get(f"http://3.19.7.49:8080/todo/{user_id}/api/project/")
+    response = requests.get(request.build_absolute_uri(f"/todo/{user_id}/api/project/"))
+    
     user_data = response.json()
 
     user = user_data['User']
