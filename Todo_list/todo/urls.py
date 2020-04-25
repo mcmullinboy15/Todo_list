@@ -9,7 +9,7 @@ app_name = 'todo'
 """ /todo/<int:user_id>/api/ :: project/ """
 api_urlpatterns = [
 
-    path('', views_api.Project__, name='project_list'),
+    path('', views_api.getUser, name='getUser'),
     path('project/', views_api.Project__, name='project_list'),
     path('project/<int:proj_id>/', views_api.getproject, name='lists'),  # def project_list calls project without all
     path('project/<int:proj_id>/list/', views_api.List__, name='_lists'),

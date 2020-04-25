@@ -111,7 +111,7 @@ a {
 
 .list-view-box.active {
     height: auto;
-    max-height: 200px;
+    max-height: 300px;
 }
 
 .list-view-box {
@@ -126,5 +126,5 @@ a {
 	border-radius: 1px;
 	border-width: 2px;
 	border-style: solid;
-    height: 45px;
+    height: auto;
 }

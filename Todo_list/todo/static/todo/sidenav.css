@@ -28,12 +28,17 @@
 	padding: 3px 10px;
 	/* margin: 10px; */
 	cursor: pointer;
-	border-radius: 1px;
-	border-width: 2px;
-	border-style: solid;
+	/* border-radius: 1px; */
+	/* border-width: 2px; */
+	/* border-style: solid; */
     transition: width 2s;
 	width: 0px;
 
+}
+
+.sidebar-color {
+    background:   rgb(0,0,0);
+    box-shadow: 1px 1px 2px rgba(220,220,220,0.3);
 }
 
 #sidebar {
@@ -61,7 +66,7 @@
     font-size: 0.85em;
 }
 
-#sidebar.active ul li a i {
+#sidebar.active ul li a { /* i { */
     margin-right:  0;
     display: block;
     font-size: 1.8em;

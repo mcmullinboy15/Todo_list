@@ -249,10 +249,10 @@ def User__(request):
         username = request.GET.get('username')
         email = request.GET.get('email')
         password = request.GET.get('password')
-        
+
         usr = User.objects.create_user(
-            username=username, 
-            email=email, 
+            username=username,
+            email=email,
             password=password
         )
 
@@ -465,6 +465,37 @@ def getAll(request):
         resp.update(everything)
 
     return JsonResponse(resp)
+
+
+def getUser(request, user_id):
+    user = User.objects.get(pk=user_id)
+
+    projs = Project.objects.filter(parent_obj=user)
+    projs_DICT = {}
+    for proj in projs:
+
+        lists = List.objects.filter(parent_obj=proj)
+        lists_DICT = {}
+        for list in lists:
+
+            tasks = Task.objects.filter(parent_obj=list)
+            tasks_DICT = {}
+            for task in tasks:
+                tasks_DICT.update({f"Task_{task.id}": model_to_dict(task)})
+
+            list_d = model_to_dict(list)
+            list_d.update({"Tasks": tasks_DICT})
+            lists_DICT.update({f"List_{list.id}": list_d})
+
+        proj_d = model_to_dict(proj)
+        proj_d.update({"Lists": lists_DICT})
+        projs_DICT.update({f"Project_{proj.id}": proj_d})
+
+    user_DICT = model_to_dict(user)
+    user_DICT.update({"Projects": projs_DICT})
+
+    return JsonResponse(user_DICT)
+
 
 def getEverything(request):
     users = User.objects.all()

@@ -12,6 +12,7 @@ class TODO_Template(models.Model):
     contributors = models.EmailField(max_length=200, blank=True, null=True,
                                      default=None)  # ArrayField(models.EmailField(max_length=200))
     created = models.DateTimeField()
+    collapsed = models.BooleanField(default=True)
 
     type = 'TODO_Template'
     parent = None
@@ -25,6 +26,7 @@ class TODO_Template(models.Model):
 {self.content}\n
 {self.contributors}\n
 {self.created}\n
+{self.collapsed}\n
 =====================================
 """
 

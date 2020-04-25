@@ -54,24 +54,17 @@ def index(request):
 def user_index(request, user_id):
     # user = User.objects.filter(pk=user_id)[0]
     
-    print(request.build_absolute_uri(f"/todo/{user_id}/api/project/"))
-    # print(urljoin(request, f"/todo/{user_id}/api/project/"))
-    # response = requests.get(f"http://3.19.7.49:8080/todo/{user_id}/api/project/")
-    response = requests.get(request.build_absolute_uri(f"/todo/{user_id}/api/project/"))
-    
-    user_data = response.json()
+    # print(request.build_absolute_uri(f"/todo/{user_id}/api/project/"))
+    # # print(urljoin(request, f"/todo/{user_id}/api/project/"))
+    # # response = requests.get(f"http://3.19.7.49:8080/todo/{user_id}/api/project/")
+    # response = requests.get(request.build_absolute_uri(f"/todo/{user_id}/api/project/"))
+    #
+    # user_data = response.json()
+    #
+    # user = user_data['User']
+    # todos = user_data['Projects']
 
-    user = user_data['User']
-    todos = user_data['Projects']
-
-    # print(user)
-
-    background_url = requests.get("https://api.nasa.gov/planetary/apod?api_key=lXdVWNTa2v5NsPcScU6b9bfVNAMeM9MfN4Fu6EWf")
-    background_url = background_url.json()
-    background_url = background_url['url']
-
-    return render(request, 'todo/user_index.html',
-                  {'time': timezone.now(), 'user_id': user['id'], 'user': user, 'user_data': user_data, 'todos': todos, 'background_url': background_url})
+    return render(request, 'todo/user_index.html', {'time': timezone.now(), 'user_id': user_id, })
 
 
 def get_projects(user_id, proj_id, amount):

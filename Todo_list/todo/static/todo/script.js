@@ -1,11 +1,27 @@
 var app = new Vue({
+    delimiters: ['[[', ']]'],
     el: '#app',
     data: {
+
         title: "Andrew's TODO list",
+        time: "",
+        user_id: user_id,
+        user: "",
         background_url: "",
+
     },
 
     methods: {
+        getAllUserData(id) {
+            fetch("/todo/"+id+"/api/")
+                .then(response => response.json())
+                .then(json => {
+                    console.log(json)
+                    app.user = json
+                })
+
+        },
+
         getTimestamp() {
             var date = new Date();
             d = date.getMonth() + "/";
@@ -64,14 +80,15 @@ var app = new Vue({
 
         toggle_active(ev) {
             var el = ev.target
+            console.log(el)
 
 
 
             el.classList.toggle('active');
 
-            while (!el.id.includes('list_box_')) {
-                    el = el.parentNode
-            }
+//            while (!el.id.includes('list_box_')) {
+//                    el = el.parentNode
+//            }
 
             var children = el.children
             console.log(children)
@@ -90,11 +107,79 @@ var app = new Vue({
 //                return true
 //            }
         }
+    },
+
+    computed: {
+
+
+
     }
+
+
 })
 
-//fetch("https://api.nasa.gov/planetary/apod?api_key=lXdVWNTa2v5NsPcScU6b9bfVNAMeM9MfN4Fu6EWf")
-//.then(response => response.json())
-//.then(json => {
-//    app.background_url = json.url;
+app.getAllUserData(user_id)
+app.time = app.getTimestamp()
+
+fetch("https://api.nasa.gov/planetary/apod?api_key=lXdVWNTa2v5NsPcScU6b9bfVNAMeM9MfN4Fu6EWf")
+.then(response => response.json())
+.then(json => {
+    app.background_url = json.url;
+    console.log(app.background_url)
+})
+
+//Vue.component('sidebar', {
+//    props: ['']
+//  data: function () {
+//    return {
+//      count: 0
+//    }
+//  },
+//  template: '<nav id="sidebar" class="sidebar-box sidebar-color">'\
+//            '   <div class="sidebar-header">'\
+//            '      <h3>Bootstrap Sidebar</h3>'\
+//            '      <strong onclick="toggle_sidebar()">BS</strong>'\
+//            '   </div>'\
+//
+//            '   <ul class="list-unstyled components">'\
+//            '       <li class="active">'\
+//            '           <a href="#" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">'\
+//            '                <i class="fas fa-home"></i>'\
+//            '                    <p>Home</p>'\
+//            '           </a>'\
+//            '            <ul class="collapse list-unstyled" id="homeSubmenu">'\
+//            '                <li>'\
+//            '                    <a href="#3">Home 1</a>'\
+//            '                </li>'\
+//            '                <li>'\
+//            '                    <a href="#6">Home 2</a>'\
+//            '               </li>'\
+//            '               <li>'\
+//            '                   <a href="#9">Home 3</a>'\
+//            '               </li>'\
+//            '           </ul>'\
+//            '       </li>'\
+//            '       <li>'\
+//            '           <a href="#_20">'\
+//            '               <i class="fas fa-briefcase"></i>'\
+//            '                   <p>About</p>'\
+//            '           </a>'\
+//            '           <a href="#25" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">'\
+//            '               <i class="fas fa-copy"></i>'\
+//            '                   <p>Pages</p>'\
+//            '           </a>'\
+//            '           <ul class="collapse list-unstyled" id="pageSubmenu">'\
+//            '               <li>'\
+//            '                   <a href="#28">Page 1</a>'\
+//            '               </li>'\
+//            '               <li>'\
+//            '                   <a href="#31">Page 2</a>'\
+//            '               </li>'\
+//            '               <li>'\
+//            '                   <a href="#34">Page 3</a>'\
+//            '               </li>'\
+//            '           </ul>'\
+//            '       </li>'\
+//            '   </ul>'\
+//            '</nav>'
 //})
