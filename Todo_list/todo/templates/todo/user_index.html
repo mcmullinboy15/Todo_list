@@ -109,7 +109,6 @@
                                 <ul v-if="proj.collapsed">
 
                                     <li @click="proj.collapsed = !proj.collapsed">[[ proj.title ]]</li>
-                                    <li>[[ proj.isActive ]]</li>
 
                                 </ul>
 
@@ -119,7 +118,7 @@
                                     <li>
                                         <textarea
                                             style="overflow-x: auto; font: inherit; resize: none;
-                                            background-color: grey; margin: 10px;  width: 400px;"
+                                            background-color: grey; margin: 10px;  width: 100%;"
                                             spellcheck="false"
                                         >
                                         [[ proj.description ]]
