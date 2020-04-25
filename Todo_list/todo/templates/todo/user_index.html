@@ -93,24 +93,30 @@
             <main role="main" class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <ul class="focus-box blue" @click="toggle_sidebar()">
+                        <ul v-if="!user" class="focus-box blue" @click="toggle_sidebar()">
+                            <li><p>Loading username ...</p></li>
+                            <li><p>Loading email...</p></li>
+                            <li><p>Loading time ...</p></li>
+                        </ul>
+
+                        <ul v-else class="focus-box blue" @click="toggle_sidebar()">
                             <li><p>[[ user.username ]]</p></li>
                             <li><p>[[ user.email ]]</p></li>
                             <li><p>[[ time ]]</p></li>
                         </ul>
 
-                        <div>
+                        <div class="list-view-box shadowed black" v-if="!user">
+                            <p>Loading ...</p>
+                        </div>
+
+                        <div v-else>
                             <div v-for="proj in user.Projects" :key="proj.id"
                                  class="list-view-box shadowed black"
                                 >
 
                                 <span style="display: inline-block;">
 
-                                <div v-if="!proj">
-                                    Loading ...
-                                </div>
-
-                                <ul v-else-if="proj.collapsed">
+                                <ul v-if="proj.collapsed">
 
                                     <li @click="proj.collapsed = !proj.collapsed">[[ proj.title ]]</li>
 
