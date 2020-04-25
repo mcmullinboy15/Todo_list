@@ -106,7 +106,11 @@
 
                                 <span style="display: inline-block;">
 
-                                <ul v-if="proj.collapsed">
+                                <div v-if="!proj">
+                                    Loading ...
+                                </div>
+
+                                <ul v-else-if="proj.collapsed">
 
                                     <li @click="proj.collapsed = !proj.collapsed">[[ proj.title ]]</li>
 
