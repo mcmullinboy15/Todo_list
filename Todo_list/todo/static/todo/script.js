@@ -128,6 +128,11 @@ fetch("https://api.nasa.gov/planetary/apod?api_key=lXdVWNTa2v5NsPcScU6b9bfVNAMeM
     console.log(app.background_url)
 })
 
+Vue.component('submit-button', {
+
+})
+
+
 //Vue.component('sidebar', {
 //    props: ['']
 //  data: function () {
