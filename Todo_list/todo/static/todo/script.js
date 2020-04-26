@@ -12,6 +12,7 @@ var app = new Vue({
     },
 
     methods: {
+
         getAllUserData(id) {
             fetch("/todo/"+id+"/api/")
                 .then(response => response.json())
@@ -99,21 +100,14 @@ var app = new Vue({
             }
         },
 
-        isDisappeared(ev){
-//            console.log(ev)
-//            if(ev.classList.contains('disappear')){
-//                return false
-//            }else{
-//                return true
-//            }
-        }
+
     },
 
     computed: {
 
 
 
-    }
+    },
 
 
 })
@@ -121,26 +115,145 @@ var app = new Vue({
 app.getAllUserData(user_id)
 app.time = app.getTimestamp()
 
-fetch("https://api.nasa.gov/planetary/apod?api_key=lXdVWNTa2v5NsPcScU6b9bfVNAMeM9MfN4Fu6EWf")
-.then(response => response.json())
-.then(json => {
-    app.background_url = json.url;
-    console.log(app.background_url)
+//fetch("https://api.nasa.gov/planetary/apod?api_key=lXdVWNTa2v5NsPcScU6b9bfVNAMeM9MfN4Fu6EWf")
+//.then(response => response.json())
+//.then(json => {
+//    app.background_url = json.url;
+//    console.log(app.background_url)
+//})
+
+Vue.component('todo-object', {
+    props: {
+        proj: Object,
+        title: String,
+        description: String,
+        created: String,
+        content: String,
+        contributors: String,
+//        collapsed: Boolean
+    },
+
+    data: function () {
+        return {
+            collapsed: true
+        }
+    },
+
+  template:
+'<div id="list_view_box" class="list-view-box shadowed black"> ' +
+'    <span style="display: inline-block;" ' +
+'' +
+'    <ul v-if="collapsed">' +
+'        <li @click="collapsed = !collapsed">{{ title }}</li>' +
+'    </ul>' +
+'' +
+'    <ul :id="proj.id" v-else>' +
+'        <li @click="collapsed = !collapsed">{{ title }}</li>' +
+//'        <li>' +
+'            <textarea' +
+'                style="overflow-x: auto; font: inherit; resize: none;' +
+'                background-color: grey; margin: 10px;  width: 75%;"' +
+'                spellcheck="false" id="description" ' +
+'            >{{ description }}</textarea>' +
+//'        </li>' +
+//'        <li>' +
+'            <textarea' +
+'                style="overflow-x: auto; font: inherit; resize: none;' +
+'                background-color: grey; margin: 10px;  width: 75%;"' +
+'                spellcheck="false" id="content"' +
+'            >{{ content }}</textarea>' +
+//'        </li>' +
+'        <li>{{ contributors }}</li>' +
+'        <li>{{ created }}</li>' +
+//'        <li>'+
+'        <button ' +
+'            style="margin-top: 10px; width: 50px" '+
+'            class="shadowed red"   '+
+'            v-on:click="editProject(proj, proj.parent_obj)" ' +
+'        >Submit</button>'+
+
+'        <button ' +
+'            style="margin-top: 10px; margin-left: 20px; width: 50px" '+
+'            class="shadowed blue"  '+
+'            v-on:click="deleteProject($event, proj, proj.parent_obj)" ' +
+'        >Delete</button>'+
+
+//'        </li>' +
+'    </ul>' +
+'    </span>' +
+'</div>',
+    methods: {
+
+        deleteProject: function(el, proj, user) {
+            var host = window.location.host.toString();
+            var url = "http://"+host+"/todo/"+user+"/api/project/?delete=True&id="+proj.id;
+
+            console.log(host)
+            console.log(url)
+            if (confirm("Are you sure you'd like to delete this item?")){
+                fetch(url)
+                .then(response => response.json())
+                .then(json => {
+                    console.log(json)
+                })
+            }
+
+            var el = el.target
+            while (!el.id.includes('list_view_box')) {
+                    el = el.parentNode
+                    console.log(el)
+            }
+            console.log(el)
+            el.remove()
+
+
+
+        },
+
+        editProject: function(proj, user) {
+
+            var list = document.getElementById(proj.id).childNodes
+            console.log(list)
+
+            var new_description = list.item(2).value
+            var new_content = list.item(4).value
+
+            var host = window.location.host.toString();
+            var url = "http://"+host+"/todo/"+user+"/api/project/?edit=True&id="+proj.id+"&description="+new_description+"&content="+new_content;
+
+            console.log(host)
+            console.log(url)
+
+            if (confirm("Are you sure you'd like to make changes to the Item?")){
+                fetch(url)
+                .then(response => response.json())
+                .then(json => {
+                    console.log(json)
+                })
+            }
+
+        },
+
+    }
+
 })
 
-Vue.component('submit-button', {
+Vue.component('my-button', {
+    props: { proj: Object, type: String },
 
+    data: function () {
+        return {        }
+    },
+    template: "",
+
+    methods: {
+
+    }
 })
 
 
-//Vue.component('sidebar', {
-//    props: ['']
-//  data: function () {
-//    return {
-//      count: 0
-//    }
-//  },
-//  template: '<nav id="sidebar" class="sidebar-box sidebar-color">'\
+
+//            '<nav id="sidebar" class="sidebar-box sidebar-color">'\
 //            '   <div class="sidebar-header">'\
 //            '      <h3>Bootstrap Sidebar</h3>'\
 //            '      <strong onclick="toggle_sidebar()">BS</strong>'\

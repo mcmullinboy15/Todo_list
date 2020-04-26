@@ -52,7 +52,11 @@ def not_found_resp(objs, user_id, proj_id=None, list_id=None, task_id=None, is_t
 
 def manipulate_TODO_objects(request, TYPE, user_id, proj_id=None, list_id=None):
     variables = getVariables(request)
+    details = variables['details']
+
     resp = {}
+
+    print("TYPE", TYPE, "user_id", user_id, "proj_id", proj_id)
 
     if TYPE.type == Project.type:
         FORGIEN_TYPE = User
@@ -72,14 +76,14 @@ def manipulate_TODO_objects(request, TYPE, user_id, proj_id=None, list_id=None):
         if variables['create']:
             print("Creating an Object")
 
-            details = variables['details']
-
             obj = TYPE(
                 title=details['title'],
                 description=details['description'],
                 content=details['content'],
                 created=timezone.now(),
                 contributors=details['contributors'],
+                collapsed=details['collapsed'],
+
             )
             print(FORGIEN_TYPE)
 
@@ -121,11 +125,54 @@ def manipulate_TODO_objects(request, TYPE, user_id, proj_id=None, list_id=None):
             return resp
 
         elif variables['edit']:
-            return
+
+            print(" :: ", details['id'],
+                  details['title'],
+                  details['description'],
+                  details['content'],
+                  details['contributors'],
+                  details['collapsed'],
+                  )
+
+            try:
+
+                obj = get_object_or_404(TYPE, pk=details['id'])
+                print(obj)
+
+                obj.title = details['title'] if (details['title'] is not None) else obj.title
+                obj.description = details['description'] if (details['description'] is not None) else obj.description
+                obj.content = details['content'] if (details['content'] is not None) else obj.content
+                obj.contributors = details['contributors'] if (
+                        details['contributors'] is not None) else obj.contributors
+                obj.collapsed = details['collapsed'] if (details['collapsed'] is not None) else obj.collapsed
+
+                print(obj)
+
+                obj.save()
+
+                return details
+
+            except:
+
+                print('sup')
+                error = not_found_resp(FORGIEN_TYPE.objects.all(), user_id)
+                return {'error': error_resp['forgienkey_error'], 'Object_not_found': error}
+
         elif variables['link']:
             return
+
         elif variables['delete']:
-            return
+
+            try:
+                obj = get_object_or_404(TYPE, pk=details['id'])
+                obj.delete()
+
+                return {'Object Deleted': model_to_dict(obj)}
+
+            except:
+                error = not_found_resp(FORGIEN_TYPE.objects.all(), user_id)
+                return {'error': error_resp['forgienkey_error'], 'Object_not_found': error}
+
         elif variables['add_cont']:
             return
         else:
@@ -196,6 +243,7 @@ def getVariables(request):
     link = request.GET.get('link')  # unlink
     delete = request.GET.get('delete')
     add_cont = request.GET.get('add_cont')
+
     commands = [create, edit, link, delete, add_cont]
 
     has_command = False
@@ -221,14 +269,14 @@ def getVariables(request):
     description = request.GET.get('description')
     content = request.GET.get('content')
     contributors = request.GET.get('contributors')
-    # foreign = request.GET.get('foreign')
+    collapsed = request.GET.get('collapsed')
 
     dict.update(
         {
             'details':
                 {
                     'id': id, 'title': title, 'description': description,
-                    'content': content, 'contributors': contributors,  # 'foreign': foreign
+                    'content': content, 'contributors': contributors, 'collapsed': collapsed
                 }
         }
     )

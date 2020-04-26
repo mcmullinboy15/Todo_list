@@ -11,60 +11,29 @@ from django.utils import timezone
 from django.core import serializers
 from django.contrib.auth.models import User, UserManager, AbstractUser
 from django.forms.models import model_to_dict
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import views as auth_views
 
 from .models import Project, List, Task
-
-
-def convert(request):
-    _from = request.GET.get('from')
-    _to = request.GET.get('to')
-    value = request.GET.get('value')
-    print(_from, _to, value)
-
-    resp = None
-    if 'value' not in request.GET:
-        resp = {'error': 'Invalid unit conversion request'}
-    else:
-        n = request.GET['value']
-        try:
-            n = float(n)
-
-            # change = Change.objects.filter(_from=_from, _to=_to)[0]
-            send__ = None  # float(value) * float(change.value)
-            # print(send__)
-
-            resp = {
-                "units": _to,
-                "value": send__
-            }
-
-        except:
-            resp = {'error': 'Invalid unit conversion request'}
-
-    response = JsonResponse(resp)
-    response['Access-Control-Allow-Origin'] = '*'
-    return response
-
 
 # Create your views here.
 def index(request):
     return render(request, 'todo/index.html', {'time': timezone.now()})
 
 
+# @login_required(login_url='/accounts/login/')
 def user_index(request, user_id):
-    # user = User.objects.filter(pk=user_id)[0]
-    
-    # print(request.build_absolute_uri(f"/todo/{user_id}/api/project/"))
-    # # print(urljoin(request, f"/todo/{user_id}/api/project/"))
-    # # response = requests.get(f"http://3.19.7.49:8080/todo/{user_id}/api/project/")
-    # response = requests.get(request.build_absolute_uri(f"/todo/{user_id}/api/project/"))
-    #
-    # user_data = response.json()
-    #
-    # user = user_data['User']
-    # todos = user_data['Projects']
+    # username = request.POST['username']
+    # password = request.POST['password']
+    # user = authenticate(request, username=username, password=password)
 
-    return render(request, 'todo/user_index.html', {'time': timezone.now(), 'user_id': user_id, })
+    # if user is not None:
+    #     login(request, user)
+    # else:
+    #     return JsonResponse({'invalid': 'login error message'})
+
+    return render(request, 'todo/user_index.html', {'time': timezone.now(), 'user_id': user_id, }) # 'background_url':requests.get("https://api.nasa.gov/planetary/apod?api_key=lXdVWNTa2v5NsPcScU6b9bfVNAMeM9MfN4Fu6EWf").json()['url']})
 
 
 def get_projects(user_id, proj_id, amount):

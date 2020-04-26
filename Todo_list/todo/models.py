@@ -6,7 +6,7 @@ from django.contrib.auth.models import User, AbstractUser, AbstractBaseUser, Per
 
 
 class TODO_Template(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, default="[ Title ]")
     description = models.TextField(max_length=500)
     content = models.TextField(blank=True, null=True)
     contributors = models.EmailField(max_length=200, blank=True, null=True,

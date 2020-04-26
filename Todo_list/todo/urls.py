@@ -1,7 +1,9 @@
+import django
 from django.urls import path, include
 from . import views
 from . import views_api
 
+from django.contrib.auth import views as auth_views
 
 app_name = 'todo'
 
@@ -47,6 +49,9 @@ urlpatterns = [
     path('<int:user_id>/api/', include(api_urlpatterns)),
     path('<int:user_id>/api_edit/', include(api_edit_urlpatterns)),
 
+    path('accounts/login/', auth_views.LoginView.as_view()),
+
+    path('accounts/', include('django.contrib.auth.urls')),
 
     path('vars/', views_api.vars, name='vars'),
     path('all/', views_api.getAll, name='getall'),
