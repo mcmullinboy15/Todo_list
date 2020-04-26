@@ -11,8 +11,16 @@ from .models import Project, List, Task
 
 from .Error_Responses import error_resp
 
-"""    blog.comment_set.all()    """
+"""
 
+blog.comment_set.all()
+
+response = JsonResponse(dict, safe=False)
+response['Access-Control-Allow-Origin'] = '*'
+
+return response
+
+"""
 
 def not_found_resp(objs, user_id, proj_id=None, list_id=None, task_id=None, is_task=False):
     options = {}
@@ -576,3 +584,28 @@ def getEverything(request):
         user_DICT.update({f"User_{user.id}": user_d})
 
     return user_DICT
+
+
+def new(request, user_id):
+    return JsonResponse({'time': timezone.now()})
+
+
+def link(request, user_id):
+    link = request.GET.get('link')  # boolean is False do an unlink
+    return JsonResponse({'time': timezone.now()})
+
+
+def delete(request, user_id):
+    return JsonResponse({'time': timezone.now()})
+
+
+def reassign(request, user_id):
+    return JsonResponse({'time': timezone.now()})
+
+
+def add(request, user_id):
+    return JsonResponse({'time': timezone.now()})
+
+
+def get(request, user_id):
+    return JsonResponse({'time': timezone.now()})

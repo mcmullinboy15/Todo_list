@@ -25,17 +25,25 @@ api_urlpatterns = [
 api_edit_urlpatterns = [
 
     # path('', views.index, name='index'),
-    path('get/', views.get, name='get'),
-    path('new/', views.new, name='new'),
-    path('link/', views.link, name='link'),  # unlink
-    path('delete/', views.delete, name='delete'),
-    path('reassign/', views.reassign, name='reassign'),
-    path('add/', views.add, name='add'),  # add contributers, {remove host?? then call unlink} or reassign
+    path('get/', views_api.get, name='get'),
+    path('new/', views_api.new, name='new'),
+    path('link/', views_api.link, name='link'),  # unlink
+    path('delete/', views_api.delete, name='delete'),
+    path('reassign/', views_api.reassign, name='reassign'),
+    path('add/', views_api.add, name='add'),  # add contributers, {remove host?? then call unlink} or reassign
 
 ]
 
 """ /todo/<int:user_id>/todo/ """
 ui_urlpatterns = [
+
+    path('', views.User, name='getUser'),
+    # path('project/', views.Project__, name='project_list'),
+    path('project/<int:proj_id>/', views.Project, name='lists'),  # def project_list calls project without all
+    # path('project/<int:proj_id>/list/', views.List__, name='_lists'),
+    path('project/<int:proj_id>/list/<int:list_id>/', views.List, name='tasks'),
+    # path('project/<int:proj_id>/list/<int:list_id>/task/', views.Task__, name='details'),
+    path('project/<int:proj_id>/list/<int:list_id>/task/<int:task_id>/', views.Task, name='details'),
 
 ]
 
@@ -44,7 +52,7 @@ urlpatterns = [
 
     path('', views.index, name='index'),  # make it create User!!!
     path('api/', views_api.User__, name='User__'),
-    path('<int:user_id>/', views.user_index, name='index'),
+    path('<int:user_id>/', include(ui_urlpatterns)),
     path('<int:user_id>/todo/', include(ui_urlpatterns)),
     path('<int:user_id>/api/', include(api_urlpatterns)),
     path('<int:user_id>/api_edit/', include(api_edit_urlpatterns)),
