@@ -106,7 +106,21 @@
                         </ul>
 
                         <div class="list-view-box shadowed black" v-if="!user">
-                            <p>Loading ...</p>
+                            <p>Loading Menu...</p>
+                        </div>
+
+                        <div v-else>
+
+                        <div v-if="!user">
+                            <div class="list-view-box shadowed black" >
+                                <p>Loading List 1 ...</p>
+                            </div>
+                            <div class="list-view-box shadowed black" >
+                                <p>Loading List 2 ...</p>
+                            </div>
+                            <div class="list-view-box shadowed black" >
+                                <p>Loading List 3 ...</p>
+                            </div>
                         </div>
 
                         <div v-else>
