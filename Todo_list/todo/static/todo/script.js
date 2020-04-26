@@ -22,9 +22,7 @@ var app = new Vue({
                 .then(response => response.json())
                 .then(json => {
                     console.log(json)
-
-//                    for (let i = 0; i < 1000000000; i++) {    }
-
+//                    for (let i = 0; i < 1000000000; i++) {     }
                     app.user = json
                 })
         },
@@ -87,27 +85,28 @@ Vue.component('todo-object', {
         title: String,
         description: String,
         created: String,
-        content: String,
+//        content: String,
         contributors: String,
 //        collapsed: Boolean
     },
 
     data: function () {
         return {
-            collapsed: true
+            content: "",
+            collapsed: true,
         }
     },
 
   template:
-'<div id="list_view_box" class="list-view-box shadowed black"> ' +
+'<div id="list_view_box" class="list-view-box shadowed black" > ' +
 '    <span style="display: inline-block;" ' +
 '' +
-'    <ul v-if="collapsed">' +
-'        <li @click="collapsed = !collapsed">{{ title }}</li>' +
-'    </ul>' +
+'    <div v-if="collapsed" >' +
+'        <p @click="collapsed = !collapsed">{{ title }}</p>' +
+'    </div>' +
 '' +
-'    <ul :id="proj.id" v-else >' +
-'        <li @click="collapsed = !collapsed">{{ title }}</li>' +
+'    <div :id="proj.id" v-else >' +
+'        <p @click="collapsed = !collapsed">{{ title }}</p>' +
 //'        <li>' +
 '            <textarea' +
 '                style="overflow-x: auto; font: inherit; resize: none;' +
@@ -122,8 +121,8 @@ Vue.component('todo-object', {
 '                spellcheck="false" id="content"' +
 '            >{{ content }}</textarea>' +
 //'        </li>' +
-'        <li>{{ contributors }}</li>' +
-'        <li>{{ created }}</li>' +
+'        {{ contributors }}<br>' +
+//'        {{ created }}<br>' +
 //'        <li>'+
 '        <button ' +
 '            style="margin-top: 10px; width: 50px" '+
@@ -137,7 +136,7 @@ Vue.component('todo-object', {
 '            v-on:click="deleteProject($event, proj, proj.parent_obj)" ' +
 '        >Delete</button>'+
 //'        </li>' +
-'    </ul>' +
+'    </div>' +
 '    </span>' +
 '</div>',
 
@@ -164,11 +163,10 @@ Vue.component('todo-object', {
 
         editProject: function(proj, user) {
 
-            var list = document.getElementById(proj.id).childNodes
-            console.log(list)
+            var list = document.getElementById(proj.id).children
 
-            var new_description = list.item(2).value
-            var new_content = list.item(4).value
+            var new_description = list.namedItem('description').value
+            var new_content = list.namedItem('content').value
 
             var host = window.location.host.toString();
             var url = "http://"+host+"/todo/"+user+"/api/project/?edit=True&id="+proj.id+"&description="+new_description+"&content="+new_content;
@@ -179,6 +177,8 @@ Vue.component('todo-object', {
                 .then(json => {
                     console.log(json)
                 })
+                this.content = new_content
+                this.description = new_description
             }
         },
     }

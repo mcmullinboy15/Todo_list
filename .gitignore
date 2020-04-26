@@ -1,4 +1,10 @@
 .idea/
-node_modules/
 todo_env/ 
 __pycache__/
+db.sqlite3
+package-lock.json
+package.json
+stories/
+node_modules/
+storybook-static/
+.storybook/
