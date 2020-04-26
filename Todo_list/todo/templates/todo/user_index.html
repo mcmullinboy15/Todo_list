@@ -109,7 +109,12 @@
                             <p>Loading Menu...</p>
                         </div>
 
-                        <div v-else>
+                        <div v-else class="list-view-box shadowed black" >
+                            <a>Create Project</a>
+                            <a>Create List</a>
+                            <a>Create Task</a>
+                            <a class="tooltip" href="{{ background_url }}"><span class="tooltiptext">NASA's picture of the Day</span>Background</a>
+                        </div>
 
                         <div v-if="!user">
                             <div class="list-view-box shadowed black" >
