@@ -33,7 +33,7 @@ def user_index(request, user_id):
     # else:
     #     return JsonResponse({'invalid': 'login error message'})
 
-    return render(request, 'todo/user_index.html', {'time': timezone.now(), 'user_id': user_id, }) # 'background_url':requests.get("https://api.nasa.gov/planetary/apod?api_key=lXdVWNTa2v5NsPcScU6b9bfVNAMeM9MfN4Fu6EWf").json()['url']})
+    return render(request, 'todo/user_index.html', {'time': timezone.now(), 'user_id': user_id,  'background_url':requests.get("https://api.nasa.gov/planetary/apod?api_key=lXdVWNTa2v5NsPcScU6b9bfVNAMeM9MfN4Fu6EWf").json()['url']})
 
 
 def get_projects(user_id, proj_id, amount):
