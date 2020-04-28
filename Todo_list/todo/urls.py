@@ -50,8 +50,10 @@ ui_urlpatterns = [
 pre = '/todo/'
 urlpatterns = [
 
-    path('', views.index, name='index'),  # make it create User!!!
-    path('api/', views_api.User__, name='User__'),
+    path('signup/', views.signup, name='signup'),  # make it create User!!!
+    path('login/', views.login, name='login'),
+    path('', views.User, name='index'),  # make it create User!!!
+    path('api/', views_api.User__, name='api_User__'),
     path('<int:user_id>/', include(ui_urlpatterns)),
     path('<int:user_id>/todo/', include(ui_urlpatterns)),
     path('<int:user_id>/api/', include(api_urlpatterns)),
