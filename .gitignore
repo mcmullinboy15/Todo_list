@@ -1,5 +1,5 @@
 .idea/
-todo_env/ 
+todo_env/
 
 __pycache__/
 *.pyc
@@ -11,3 +11,4 @@ stories/
 node_modules/
 storybook-static/
 .storybook/
+Andrew/ 
