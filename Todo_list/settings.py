@@ -25,7 +25,7 @@ SECRET_KEY = '@&^)%e-g*$5qg&3f9+k71&(^!+@(v5n*1!s1by&yzr&=g6^mc+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.mcmullin.website', '3.19.7.49', '18.217.99.153', '5269263a4b834f9bbf83bfc1eded55be.vfs.cloud9.us-east-2.amazonaws.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'todo.mcmullin.xyz', '3.19.7.49', '18.217.99.153', '5269263a4b834f9bbf83bfc1eded55be.vfs.cloud9.us-east-2.amazonaws.com']
 
 
 # Application definition
